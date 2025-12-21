@@ -1,0 +1,34 @@
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
+
+async function main() {
+  const passwordHash = await bcrypt.hash("password123", 12);
+
+  const users = [
+    { name: "user1", passwordHash },
+    { name: "user2", passwordHash },
+    { name: "user3", passwordHash },
+  ];
+
+  for (const user of users) {
+    await prisma.account.upsert({
+      where: { name: user.name },
+      update: {},
+      create: user,
+    });
+  }
+
+  console.log("Seed data created successfully");
+  console.log("Default password for all users: password123");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
