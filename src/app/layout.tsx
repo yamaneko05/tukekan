@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "貸し借り管理",
+  title: "ツケカン - 友人間の貸し借り管理アプリ",
   description: "友人間の貸し借りを簡単に管理するアプリ",
 };
 
