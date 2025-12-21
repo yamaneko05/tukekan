@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
 import {
   generateJWT,

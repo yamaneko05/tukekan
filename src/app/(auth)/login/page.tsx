@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/actions/auth";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { LoginForm } from "./login-form";
 
 export default async function LoginPage() {

@@ -8,7 +8,7 @@
 | Language | TypeScript | 型安全性、開発効率 |
 | UI | Tailwind CSS + shadcn/ui | 高速開発、一貫したデザイン |
 | Database | Supabase (PostgreSQL) | マネージドDB、スケーラビリティ |
-| ORM | Prisma | 型安全なDB操作 |
+| ORM | Prisma 7 | 型安全なDB操作 |
 | Auth | 自前実装（bcrypt + JWT） | シンプルな要件に適合、依存を減らす |
 | Hosting | Vercel | Next.jsとの親和性 |
 
