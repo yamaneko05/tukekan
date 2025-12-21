@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Account {
+  id           String   @id @default(cuid())
+  name         String   @unique // ログイン用・表示用
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  // Relations
+  transactions Transaction[]
+  partners     Partner[]     @relation("OwnerPartners")
+  linkedFrom   Partner[]     @relation("LinkedAccount")
+}
+
+model Partner {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  // Relations
+  ownerId String
+  owner   Account @relation("OwnerPartners", fields: [ownerId], references: [id])
+
+  linkedAccountId String?
+  linkedAccount   Account? @relation("LinkedAccount", fields: [linkedAccountId], references: [id])
+
+  transactions Transaction[]
+
+  @@unique([ownerId, name]) // 同一オーナー内で名前の重複を防ぐ
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Int // +は貸し、-は借り/返済
+  description String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  // Relations
+  ownerId String
+  owner   Account @relation(fields: [ownerId], references: [id])
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  @@index([ownerId])
+  @@index([partnerId])
+  @@index([date])
+}
