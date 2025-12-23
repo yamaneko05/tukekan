@@ -95,7 +95,7 @@ export function TransactionList({
         return (
           <div
             key={transaction.id}
-            className="flex items-center justify-between px-4 py-3 border"
+            className="flex items-center justify-between px-4 py-3"
           >
             {content}
           </div>

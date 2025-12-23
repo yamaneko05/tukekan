@@ -43,7 +43,7 @@ export function LoginForm({ users }: Props) {
           <div className="space-y-2">
             <Label htmlFor="userId">ユーザー</Label>
             <Select name="userId" required>
-              <SelectTrigger id="userId">
+              <SelectTrigger id="userId" className="w-full">
                 <SelectValue placeholder="ユーザーを選択" />
               </SelectTrigger>
               <SelectContent>

@@ -7,7 +7,6 @@ import { getDescriptionSuggestions } from "@/actions/transaction";
 import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   TransactionList,
   type Transaction,
@@ -103,14 +102,12 @@ export default async function PartnerHistoryPage({ params }: Props) {
       </div>
 
       {/* Transaction history */}
-      <Card className="mx-4 rounded-lg">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">取引履歴</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
+      <div className="px-4">
+        <h4 className="font-semibold">取引履歴</h4>
+        <div className="mt-4">
           <TransactionList transactions={transactionItems} />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

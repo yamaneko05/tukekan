@@ -14,7 +14,7 @@ export default async function MembersPage() {
   return (
     <div className="flex flex-col">
       <div className="p-4">
-        <h2 className="text-2xl font-semibold">メンバー</h2>
+        <h2 className="text-xl font-semibold">メンバー</h2>
       </div>
       <div className="px-4">
         <MemberList members={members} />
