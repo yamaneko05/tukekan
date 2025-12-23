@@ -10,7 +10,6 @@ import {
 } from "@/components/features/partner/partner-balance-list";
 import { TransactionModal } from "@/components/features/transaction/transaction-modal";
 import { TransactionList } from "@/components/features/transaction/transaction-list";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wallet, History } from "lucide-react";
 
@@ -96,10 +95,8 @@ export default async function HomePage() {
           <TotalBalanceCard balance={totalBalance} />
 
           <div className="p-4">
-            <div className="pb-4">
-              <h4 className="text-xl font-semibold">相手ごとの残高</h4>
-            </div>
-            <div className="p-0">
+            <h4 className="font-semibold">相手ごとの残高</h4>
+            <div className="mt-4">
               <PartnerBalanceList balances={partnerBalances} />
             </div>
           </div>
@@ -107,10 +104,8 @@ export default async function HomePage() {
 
         <TabsContent value="history">
           <div className="px-4">
-            <div className="pb-4">
-              <h4 className="text-xl font-semibold">全取引履歴</h4>
-            </div>
-            <div className="p-0">
+            <h4 className="font-semibold">全取引履歴</h4>
+            <div className="mt-4">
               <TransactionList
                 transactions={allTransactions}
                 showPartnerName={true}

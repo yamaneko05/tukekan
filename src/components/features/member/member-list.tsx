@@ -22,7 +22,7 @@ export function MemberList({ members }: Props) {
         <Link
           key={member.id}
           href={`/members/${member.id}`}
-          className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50 border"
+          className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50"
         >
           <span className="font-medium">{member.name}</span>
           <div className="flex items-center gap-2">

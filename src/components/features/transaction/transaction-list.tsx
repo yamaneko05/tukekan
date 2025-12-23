@@ -85,7 +85,7 @@ export function TransactionList({
             <Link
               key={transaction.id}
               href={`/partners/${transaction.partnerId}`}
-              className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors border"
+              className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors"
             >
               {content}
             </Link>
