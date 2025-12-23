@@ -1,11 +1,14 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/actions/auth";
 import prisma from "@/lib/prisma";
+import { getPartners } from "@/actions/partner";
+import { getDescriptionSuggestions } from "@/actions/transaction";
 import { TotalBalanceCard } from "@/components/features/balance/total-balance-card";
 import {
   PartnerBalanceList,
   type PartnerBalance,
 } from "@/components/features/partner/partner-balance-list";
+import { TransactionModal } from "@/components/features/transaction/transaction-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wallet, History } from "lucide-react";
@@ -42,7 +45,11 @@ export default async function HomePage() {
     redirect("/login");
   }
 
-  const partnerBalances = await getPartnerBalances(session.userId);
+  const [partnerBalances, partners, suggestions] = await Promise.all([
+    getPartnerBalances(session.userId),
+    getPartners(),
+    getDescriptionSuggestions(),
+  ]);
   const totalBalance = partnerBalances.reduce(
     (sum, item) => sum + item.balance,
     0
@@ -50,6 +57,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col">
+      <TransactionModal partners={partners} suggestions={suggestions} />
       <Tabs defaultValue="balance" className="w-full">
         <div className="px-4 py-4">
           <TabsList className="w-full h-10">

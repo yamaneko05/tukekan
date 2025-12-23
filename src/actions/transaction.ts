@@ -5,6 +5,28 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
+export async function getDescriptionSuggestions(): Promise<string[]> {
+  const session = await getSession();
+  if (!session) {
+    return [];
+  }
+
+  const suggestions = await prisma.transaction.groupBy({
+    by: ["description"],
+    where: {
+      ownerId: session.userId,
+      description: { not: null },
+    },
+    _count: { description: true },
+    orderBy: { _count: { description: "desc" } },
+    take: 10,
+  });
+
+  return suggestions
+    .map((s) => s.description)
+    .filter((d): d is string => d !== null);
+}
+
 const createTransactionSchema = z.object({
   partnerId: z.string().min(1, "相手を選択してください"),
   amount: z

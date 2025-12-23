@@ -5,6 +5,26 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
+export type Partner = {
+  id: string;
+  name: string;
+};
+
+export async function getPartners(): Promise<Partner[]> {
+  const session = await getSession();
+  if (!session) {
+    return [];
+  }
+
+  const partners = await prisma.partner.findMany({
+    where: { ownerId: session.userId },
+    select: { id: true, name: true },
+    orderBy: { name: "asc" },
+  });
+
+  return partners;
+}
+
 const createPartnerSchema = z.object({
   name: z
     .string()
