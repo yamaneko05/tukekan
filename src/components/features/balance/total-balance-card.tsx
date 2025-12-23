@@ -6,7 +6,7 @@ type Props = {
 
 export function TotalBalanceCard({ balance }: Props) {
   return (
-    <div className="px-4 py-6 text-center">
+    <div className="p-4 text-center">
       <p className="text-sm text-muted-foreground">あなたの貸借残高</p>
       <p
         className={cn(

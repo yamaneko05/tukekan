@@ -29,7 +29,12 @@ type Props = {
 const initialTransactionState: CreateTransactionState = {};
 const initialPartnerState: CreatePartnerState = {};
 
-export function TransactionForm({ partners, suggestions, defaultPartnerId, onSuccess }: Props) {
+export function TransactionForm({
+  partners,
+  suggestions,
+  defaultPartnerId,
+  onSuccess,
+}: Props) {
   const [transactionState, transactionAction, isTransactionPending] =
     useActionState(createTransaction, initialTransactionState);
   const [partnerState, partnerAction, isPartnerPending] = useActionState(
@@ -37,7 +42,9 @@ export function TransactionForm({ partners, suggestions, defaultPartnerId, onSuc
     initialPartnerState
   );
 
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string>(defaultPartnerId ?? "");
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string>(
+    defaultPartnerId ?? ""
+  );
   const [isLending, setIsLending] = useState<boolean>(true);
   const [amount, setAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -106,7 +113,7 @@ export function TransactionForm({ partners, suggestions, defaultPartnerId, onSuc
   const isPending = isTransactionPending || isPartnerPending;
 
   return (
-    <form action={handleSubmit} className="space-y-4">
+    <form action={handleSubmit} className="space-y-6">
       {transactionState.error && (
         <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
           {transactionState.error}

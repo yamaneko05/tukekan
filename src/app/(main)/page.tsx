@@ -63,12 +63,13 @@ export default async function HomePage() {
     redirect("/login");
   }
 
-  const [partnerBalances, partners, suggestions, allTransactions] = await Promise.all([
-    getPartnerBalances(session.userId),
-    getPartners(),
-    getDescriptionSuggestions(),
-    getAllTransactions(session.userId),
-  ]);
+  const [partnerBalances, partners, suggestions, allTransactions] =
+    await Promise.all([
+      getPartnerBalances(session.userId),
+      getPartners(),
+      getDescriptionSuggestions(),
+      getAllTransactions(session.userId),
+    ]);
   const totalBalance = partnerBalances.reduce(
     (sum, item) => sum + item.balance,
     0
@@ -78,7 +79,7 @@ export default async function HomePage() {
     <div className="flex flex-col">
       <TransactionModal partners={partners} suggestions={suggestions} />
       <Tabs defaultValue="balance" className="w-full">
-        <div className="px-4 py-4">
+        <div className="p-4">
           <TabsList className="w-full h-10">
             <TabsTrigger value="balance">
               <Wallet />
@@ -91,32 +92,32 @@ export default async function HomePage() {
           </TabsList>
         </div>
 
-        <TabsContent value="balance" className="mt-0">
+        <TabsContent value="balance">
           <TotalBalanceCard balance={totalBalance} />
 
-          <Card className="mx-4 rounded-lg">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">相手ごとの残高</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
+          <div className="p-4">
+            <div className="pb-4">
+              <h4 className="text-xl font-semibold">相手ごとの残高</h4>
+            </div>
+            <div className="p-0">
               <PartnerBalanceList balances={partnerBalances} />
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
-        <TabsContent value="history" className="mt-0">
-          <Card className="mx-4 rounded-lg">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">全取引履歴</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
+        <TabsContent value="history">
+          <div className="px-4">
+            <div className="pb-4">
+              <h4 className="text-xl font-semibold">全取引履歴</h4>
+            </div>
+            <div className="p-0">
               <TransactionList
                 transactions={allTransactions}
                 showPartnerName={true}
                 linkToPartner={true}
               />
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

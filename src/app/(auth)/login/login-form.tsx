@@ -34,7 +34,7 @@ export function LoginForm({ users }: Props) {
         <CardTitle className="text-center">ログイン</CardTitle>
       </CardHeader>
       <CardContent>
-        <form action={formAction} className="space-y-4">
+        <form action={formAction} className="space-y-6">
           {state.error && (
             <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
               {state.error}

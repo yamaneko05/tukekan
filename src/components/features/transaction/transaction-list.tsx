@@ -65,7 +65,9 @@ export function TransactionList({
               <span
                 className={cn(
                   "font-semibold tabular-nums",
-                  transaction.amount < 0 ? "text-destructive" : "text-foreground"
+                  transaction.amount < 0
+                    ? "text-destructive"
+                    : "text-foreground"
                 )}
               >
                 {transaction.amount > 0 ? "+" : ""}¥
@@ -83,7 +85,7 @@ export function TransactionList({
             <Link
               key={transaction.id}
               href={`/partners/${transaction.partnerId}`}
-              className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors"
+              className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors border"
             >
               {content}
             </Link>
@@ -93,7 +95,7 @@ export function TransactionList({
         return (
           <div
             key={transaction.id}
-            className="flex items-center justify-between px-4 py-3"
+            className="flex items-center justify-between px-4 py-3 border"
           >
             {content}
           </div>

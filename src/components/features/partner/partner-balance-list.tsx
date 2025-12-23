@@ -27,7 +27,7 @@ export function PartnerBalanceList({ balances }: Props) {
         <Link
           key={item.partnerId}
           href={`/partners/${item.partnerId}`}
-          className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50"
+          className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50 border"
         >
           <span className="font-medium">{item.partnerName}</span>
           <div className="flex items-center gap-2">
