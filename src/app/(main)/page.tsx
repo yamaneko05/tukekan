@@ -9,6 +9,7 @@ import {
   type PartnerBalance,
 } from "@/components/features/partner/partner-balance-list";
 import { TransactionModal } from "@/components/features/transaction/transaction-modal";
+import { TransactionList } from "@/components/features/transaction/transaction-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wallet, History } from "lucide-react";
@@ -39,16 +40,34 @@ async function getPartnerBalances(userId: string): Promise<PartnerBalance[]> {
   );
 }
 
+async function getAllTransactions(userId: string) {
+  const transactions = await prisma.transaction.findMany({
+    where: { ownerId: userId },
+    orderBy: { date: "desc" },
+    include: { partner: true },
+  });
+
+  return transactions.map((t) => ({
+    id: t.id,
+    amount: t.amount,
+    description: t.description,
+    date: t.date,
+    partnerName: t.partner.name,
+    partnerId: t.partnerId,
+  }));
+}
+
 export default async function HomePage() {
   const session = await getSession();
   if (!session) {
     redirect("/login");
   }
 
-  const [partnerBalances, partners, suggestions] = await Promise.all([
+  const [partnerBalances, partners, suggestions, allTransactions] = await Promise.all([
     getPartnerBalances(session.userId),
     getPartners(),
     getDescriptionSuggestions(),
+    getAllTransactions(session.userId),
   ]);
   const totalBalance = partnerBalances.reduce(
     (sum, item) => sum + item.balance,
@@ -86,11 +105,18 @@ export default async function HomePage() {
         </TabsContent>
 
         <TabsContent value="history" className="mt-0">
-          <div className="p-4">
-            <p className="text-muted-foreground">
-              履歴機能は次のフェーズで実装予定です。
-            </p>
-          </div>
+          <Card className="mx-4 rounded-lg">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">全取引履歴</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <TransactionList
+                transactions={allTransactions}
+                showPartnerName={true}
+                linkToPartner={true}
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

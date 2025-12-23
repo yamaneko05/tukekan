@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
 
 export type Transaction = {
   id: string;
@@ -6,11 +8,13 @@ export type Transaction = {
   description: string | null;
   date: Date;
   partnerName?: string;
+  partnerId?: string;
 };
 
 type Props = {
   transactions: Transaction[];
   showPartnerName?: boolean;
+  linkToPartner?: boolean;
 };
 
 function formatDate(date: Date): string {
@@ -21,7 +25,11 @@ function formatDate(date: Date): string {
   });
 }
 
-export function TransactionList({ transactions, showPartnerName = false }: Props) {
+export function TransactionList({
+  transactions,
+  showPartnerName = false,
+  linkToPartner = false,
+}: Props) {
   if (transactions.length === 0) {
     return (
       <div className="py-8 text-center text-muted-foreground">
@@ -32,40 +40,65 @@ export function TransactionList({ transactions, showPartnerName = false }: Props
 
   return (
     <div className="divide-y">
-      {transactions.map((transaction) => (
-        <div
-          key={transaction.id}
-          className="flex items-center justify-between px-4 py-3"
-        >
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">
-              {formatDate(transaction.date)}
-            </span>
+      {transactions.map((transaction) => {
+        const content = (
+          <>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-muted-foreground">
+                {formatDate(transaction.date)}
+              </span>
+              <div className="flex items-center gap-2">
+                {showPartnerName && transaction.partnerName && (
+                  <span className="font-medium">{transaction.partnerName}</span>
+                )}
+                {transaction.description && (
+                  <span className="text-muted-foreground">
+                    {transaction.description}
+                  </span>
+                )}
+                {!showPartnerName && !transaction.description && (
+                  <span className="text-muted-foreground">-</span>
+                )}
+              </div>
+            </div>
             <div className="flex items-center gap-2">
-              {showPartnerName && transaction.partnerName && (
-                <span className="font-medium">{transaction.partnerName}</span>
-              )}
-              {transaction.description && (
-                <span className="text-muted-foreground">
-                  {transaction.description}
-                </span>
-              )}
-              {!showPartnerName && !transaction.description && (
-                <span className="text-muted-foreground">-</span>
+              <span
+                className={cn(
+                  "font-semibold tabular-nums",
+                  transaction.amount < 0 ? "text-destructive" : "text-foreground"
+                )}
+              >
+                {transaction.amount > 0 ? "+" : ""}¥
+                {Math.abs(transaction.amount).toLocaleString()}
+              </span>
+              {linkToPartner && transaction.partnerId && (
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
               )}
             </div>
-          </div>
-          <span
-            className={cn(
-              "font-semibold tabular-nums",
-              transaction.amount < 0 ? "text-destructive" : "text-foreground"
-            )}
+          </>
+        );
+
+        if (linkToPartner && transaction.partnerId) {
+          return (
+            <Link
+              key={transaction.id}
+              href={`/partners/${transaction.partnerId}`}
+              className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors"
+            >
+              {content}
+            </Link>
+          );
+        }
+
+        return (
+          <div
+            key={transaction.id}
+            className="flex items-center justify-between px-4 py-3"
           >
-            {transaction.amount > 0 ? "+" : ""}¥
-            {Math.abs(transaction.amount).toLocaleString()}
-          </span>
-        </div>
-      ))}
+            {content}
+          </div>
+        );
+      })}
     </div>
   );
 }
