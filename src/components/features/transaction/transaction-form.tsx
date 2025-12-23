@@ -22,13 +22,14 @@ import {
 type Props = {
   partners: Partner[];
   suggestions: string[];
+  defaultPartnerId?: string;
   onSuccess?: () => void;
 };
 
 const initialTransactionState: CreateTransactionState = {};
 const initialPartnerState: CreatePartnerState = {};
 
-export function TransactionForm({ partners, suggestions, onSuccess }: Props) {
+export function TransactionForm({ partners, suggestions, defaultPartnerId, onSuccess }: Props) {
   const [transactionState, transactionAction, isTransactionPending] =
     useActionState(createTransaction, initialTransactionState);
   const [partnerState, partnerAction, isPartnerPending] = useActionState(
@@ -36,7 +37,7 @@ export function TransactionForm({ partners, suggestions, onSuccess }: Props) {
     initialPartnerState
   );
 
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string>("");
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string>(defaultPartnerId ?? "");
   const [isLending, setIsLending] = useState<boolean>(true);
   const [amount, setAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");

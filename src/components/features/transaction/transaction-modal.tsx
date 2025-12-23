@@ -14,9 +14,10 @@ import type { Partner } from "@/actions/partner";
 type Props = {
   partners: Partner[];
   suggestions: string[];
+  defaultPartnerId?: string;
 };
 
-export function TransactionModal({ partners, suggestions }: Props) {
+export function TransactionModal({ partners, suggestions, defaultPartnerId }: Props) {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = useCallback(() => {
@@ -43,6 +44,7 @@ export function TransactionModal({ partners, suggestions }: Props) {
             key={key}
             partners={partners}
             suggestions={suggestions}
+            defaultPartnerId={defaultPartnerId}
             onSuccess={handleSuccess}
           />
         </DialogContent>
