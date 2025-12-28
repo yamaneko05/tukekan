@@ -69,7 +69,19 @@ export async function getCurrentUser() {
 
   const account = await prisma.account.findUnique({
     where: { id: session.userId },
-    select: { id: true, name: true, createdAt: true },
+    select: {
+      id: true,
+      name: true,
+      role: true,
+      createdAt: true,
+      group: {
+        select: {
+          id: true,
+          name: true,
+          inviteCode: true,
+        },
+      },
+    },
   });
 
   return account;
@@ -111,9 +123,19 @@ export async function updateProfile(
 
   const { name, currentPassword, newPassword } = result.data;
 
-  // 名前の重複チェック（自分以外）
+  // 現在のアカウント情報を取得
+  const currentAccount = await prisma.account.findUnique({
+    where: { id: session.userId },
+  });
+
+  if (!currentAccount) {
+    return { error: "アカウントが見つかりません" };
+  }
+
+  // グループ内の名前の重複チェック（自分以外）
   const existingAccount = await prisma.account.findFirst({
     where: {
+      groupId: currentAccount.groupId,
       name,
       id: { not: session.userId },
     },
@@ -133,15 +155,10 @@ export async function updateProfile(
       return { error: "新しいパスワードは6文字以上で入力してください" };
     }
 
-    const account = await prisma.account.findUnique({
-      where: { id: session.userId },
-    });
-
-    if (!account) {
-      return { error: "アカウントが見つかりません" };
-    }
-
-    const isValid = await verifyPassword(currentPassword, account.passwordHash);
+    const isValid = await verifyPassword(
+      currentPassword,
+      currentAccount.passwordHash
+    );
     if (!isValid) {
       return { error: "現在のパスワードが正しくありません" };
     }

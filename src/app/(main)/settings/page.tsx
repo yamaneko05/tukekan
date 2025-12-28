@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/actions/auth";
 import { ProfileForm } from "@/components/features/settings/profile-form";
 import { LogoutButton } from "@/components/features/settings/logout-button";
+import { GroupSection } from "@/components/features/settings/group-section";
 import {
   Card,
   CardContent,
@@ -41,6 +42,21 @@ export default async function SettingsPage() {
           </CardHeader>
           <CardContent>
             <ProfileForm currentName={user.name} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>グループ</CardTitle>
+            <CardDescription>
+              グループの設定と招待リンクを管理します
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GroupSection
+              group={user.group}
+              isAdmin={user.role === "ADMIN"}
+            />
           </CardContent>
         </Card>
 

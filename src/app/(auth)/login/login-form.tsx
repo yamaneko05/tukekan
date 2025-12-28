@@ -17,6 +17,7 @@ import {
 type User = {
   id: string;
   name: string;
+  groupName: string;
 };
 
 type Props = {
@@ -50,6 +51,9 @@ export function LoginForm({ users }: Props) {
                 {users.map((user) => (
                   <SelectItem key={user.id} value={user.id}>
                     {user.name}
+                    <span className="text-muted-foreground ml-2 text-xs">
+                      ({user.groupName})
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

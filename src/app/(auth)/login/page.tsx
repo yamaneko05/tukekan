@@ -13,11 +13,20 @@ export default async function LoginPage() {
     select: {
       id: true,
       name: true,
+      group: {
+        select: {
+          name: true,
+        },
+      },
     },
-    orderBy: {
-      name: "asc",
-    },
+    orderBy: [{ group: { name: "asc" } }, { name: "asc" }],
   });
+
+  const usersWithGroup = users.map((u) => ({
+    id: u.id,
+    name: u.name,
+    groupName: u.group.name,
+  }));
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -26,7 +35,7 @@ export default async function LoginPage() {
           <h1 className="text-2xl font-bold">ツケカン</h1>
           <p className="text-muted-foreground mt-2">貸し借り管理アプリ</p>
         </div>
-        <LoginForm users={users} />
+        <LoginForm users={usersWithGroup} />
       </div>
     </div>
   );

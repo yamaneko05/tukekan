@@ -28,8 +28,22 @@ export async function getMembers(): Promise<MemberWithBalance[]> {
     throw new Error("Unauthorized");
   }
 
+  // 現在のユーザーのグループを取得
+  const currentUser = await prisma.account.findUnique({
+    where: { id: session.userId },
+    select: { groupId: true },
+  });
+
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
+
+  // 同じグループのメンバーのみ取得（自分を除く）
   const members = await prisma.account.findMany({
-    where: { id: { not: session.userId } },
+    where: {
+      groupId: currentUser.groupId,
+      id: { not: session.userId },
+    },
     select: {
       id: true,
       name: true,
@@ -59,15 +73,27 @@ export async function getMemberDashboard(
     throw new Error("Unauthorized");
   }
 
+  // 現在のユーザーのグループを取得
+  const currentUser = await prisma.account.findUnique({
+    where: { id: session.userId },
+    select: { groupId: true },
+  });
+
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
+
+  // 同じグループのメンバーのみ閲覧可能
   const member = await prisma.account.findUnique({
     where: { id: memberId },
     select: {
       id: true,
       name: true,
+      groupId: true,
     },
   });
 
-  if (!member) {
+  if (!member || member.groupId !== currentUser.groupId) {
     return null;
   }
 
