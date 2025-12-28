@@ -23,7 +23,7 @@ export function BottomBar() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background">
-      <div className="flex h-16 items-center justify-around">
+      <div className="mx-auto flex h-16 max-w-2xl items-center justify-around">
         {navItems.map((item) => {
           const isActive =
             item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);

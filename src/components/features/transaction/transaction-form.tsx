@@ -211,7 +211,7 @@ export function TransactionForm({
             onClick={() => setIsLending(false)}
             className="flex-1"
           >
-            借りた (-)
+            借りた・返済 (-)
           </Button>
         </div>
       </div>
