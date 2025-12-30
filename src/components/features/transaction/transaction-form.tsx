@@ -42,6 +42,11 @@ export function TransactionForm({
     createPartner,
     initialPartnerState,
   );
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const defaultDate = `${year}-${month}-${day}`;
 
   const [selectedPartnerId, setSelectedPartnerId] = useState<string>(
     defaultPartnerId ?? "",
@@ -49,9 +54,7 @@ export function TransactionForm({
   const [isLending, setIsLending] = useState<boolean>(true);
   const [amount, setAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<string>(
-    new Date().toISOString().split("T")[0],
-  );
+  const [date, setDate] = useState<string>(defaultDate);
   const [showNewPartnerInput, setShowNewPartnerInput] =
     useState<boolean>(false);
   const [newPartnerName, setNewPartnerName] = useState<string>("");

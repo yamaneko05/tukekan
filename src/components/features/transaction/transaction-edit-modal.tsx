@@ -59,10 +59,14 @@ export function TransactionEditModal({
   useEffect(() => {
     if (transaction) {
       const absAmount = Math.abs(transaction.amount);
+      const d = new Date(transaction.date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
       setIsLending(transaction.amount >= 0);
       setAmount(absAmount.toString());
       setDescription(transaction.description || "");
-      setDate(new Date(transaction.date).toISOString().split("T")[0]);
+      setDate(`${year}-${month}-${day}`);
       setShowDeleteConfirm(false);
       setDeleteError(null);
     }
