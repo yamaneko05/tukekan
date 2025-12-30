@@ -18,6 +18,7 @@ import {
   SelectValue,
   SelectSeparator,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 type Props = {
   partners: Partner[];
@@ -67,12 +68,14 @@ export function TransactionForm({
       setSelectedPartnerId(partnerState.partner.id);
       setShowNewPartnerInput(false);
       setNewPartnerName("");
+      toast.success(`${partnerState.partner.name}を追加しました`);
     }
   }, [partnerState.success, partnerState.partner]);
 
   // Handle successful transaction creation
   useEffect(() => {
     if (transactionState.success) {
+      toast.success("取引を登録しました");
       onSuccess?.();
     }
   }, [transactionState.success, onSuccess]);

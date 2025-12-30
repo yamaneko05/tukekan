@@ -5,8 +5,9 @@ import { updateProfile, type UpdateProfileState } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Check } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 type ProfileFormProps = {
   currentName: string;
@@ -17,13 +18,10 @@ export function ProfileForm({ currentName }: ProfileFormProps) {
     UpdateProfileState,
     FormData
   >(updateProfile, {});
-  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (state.success) {
-      setShowSuccess(true);
-      const timer = setTimeout(() => setShowSuccess(false), 3000);
-      return () => clearTimeout(timer);
+      toast.success("プロフィールを更新しました");
     }
   }, [state.success]);
 
@@ -70,13 +68,6 @@ export function ProfileForm({ currentName }: ProfileFormProps) {
 
       {state.error && (
         <p className="text-sm text-destructive">{state.error}</p>
-      )}
-
-      {showSuccess && (
-        <p className="text-sm text-green-600 flex items-center gap-1">
-          <Check className="h-4 w-4" />
-          プロフィールを更新しました
-        </p>
       )}
 
       <Button type="submit" disabled={isPending} className="w-full">

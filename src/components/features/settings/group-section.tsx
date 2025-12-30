@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Copy, Check, RefreshCw, Users } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type Props = {
   group: {
@@ -30,6 +31,7 @@ export function GroupSection({ group, isAdmin }: Props) {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(inviteUrl);
     setCopied(true);
+    toast.success("コピーしました");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -38,6 +40,9 @@ export function GroupSection({ group, isAdmin }: Props) {
       const result = await regenerateInviteCode();
       if (result.success && result.newInviteCode) {
         setInviteCode(result.newInviteCode);
+        toast.success("招待リンクを再生成しました");
+      } else if (result.error) {
+        toast.error(result.error);
       }
     });
   };

@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Trash2, Shield, User, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 type Member = {
   id: string;
@@ -33,11 +34,13 @@ export function MemberList({ members, currentUserId }: Props) {
   const handleDelete = () => {
     if (!memberToDelete) return;
 
+    const memberName = memberToDelete.name;
     startTransition(async () => {
       const result = await removeMember(memberToDelete.id);
       if (result.error) {
         setError(result.error);
       } else {
+        toast.success(`${memberName}を削除しました`);
         setMemberToDelete(null);
         setError(null);
       }
