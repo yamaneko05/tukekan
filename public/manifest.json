@@ -1,0 +1,9 @@
+{
+  "name": "ツケカン - 友人間の貸し借り管理アプリ",
+  "short_name": "ツケカン",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }
+  ],
+  "display": "standalone",
+  "theme_color": "#5ea500"
+}
