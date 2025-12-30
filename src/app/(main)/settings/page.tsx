@@ -53,10 +53,7 @@ export default async function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <GroupSection
-              group={user.group}
-              isAdmin={user.role === "ADMIN"}
-            />
+            <GroupSection group={user.group} isAdmin={user.role === "ADMIN"} />
           </CardContent>
         </Card>
 

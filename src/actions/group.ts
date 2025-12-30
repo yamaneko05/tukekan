@@ -5,11 +5,7 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { createId } from "@paralleldrive/cuid2";
-import {
-  generateJWT,
-  setSessionCookie,
-  getSession,
-} from "@/lib/auth";
+import { generateJWT, setSessionCookie, getSession } from "@/lib/auth";
 import { Role } from "@/app/generated/prisma";
 
 // 招待コードでグループを取得
@@ -27,9 +23,7 @@ const registerSchema = z.object({
     .string()
     .min(1, "ユーザー名を入力してください")
     .max(50, "ユーザー名は50文字以内で入力してください"),
-  password: z
-    .string()
-    .min(6, "パスワードは6文字以上で入力してください"),
+  password: z.string().min(6, "パスワードは6文字以上で入力してください"),
   inviteCode: z.string().min(1, "招待コードが必要です"),
 });
 
@@ -39,7 +33,7 @@ export type RegisterState = {
 
 export async function registerWithInvite(
   _prevState: RegisterState,
-  formData: FormData
+  formData: FormData,
 ): Promise<RegisterState> {
   const result = registerSchema.safeParse({
     name: formData.get("name"),
@@ -170,7 +164,7 @@ export type UpdateGroupNameState = {
 
 export async function updateGroupName(
   _prevState: UpdateGroupNameState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateGroupNameState> {
   const session = await getSession();
   if (!session) {
@@ -211,7 +205,9 @@ export type RemoveMemberState = {
   error?: string;
 };
 
-export async function removeMember(memberId: string): Promise<RemoveMemberState> {
+export async function removeMember(
+  memberId: string,
+): Promise<RemoveMemberState> {
   const session = await getSession();
   if (!session) {
     return { error: "ログインが必要です" };

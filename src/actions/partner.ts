@@ -44,7 +44,7 @@ export type CreatePartnerState = {
 
 export async function createPartner(
   _prevState: CreatePartnerState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CreatePartnerState> {
   const session = await getSession();
   if (!session) {

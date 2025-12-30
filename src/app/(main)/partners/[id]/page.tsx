@@ -94,7 +94,7 @@ export default async function PartnerHistoryPage({ params }: Props) {
         <p
           className={cn(
             "mt-2 text-3xl font-bold tabular-nums",
-            balance < 0 ? "text-destructive" : "text-foreground"
+            balance < 0 ? "text-destructive" : "text-foreground",
           )}
         >
           {balance < 0 ? "-" : ""}¥{Math.abs(balance).toLocaleString()}
@@ -109,9 +109,9 @@ export default async function PartnerHistoryPage({ params }: Props) {
         </p>
         <div className="mt-4">
           <TransactionListWithEdit
-                transactions={transactionItems}
-                suggestions={suggestions}
-              />
+            transactions={transactionItems}
+            suggestions={suggestions}
+          />
         </div>
       </div>
     </div>

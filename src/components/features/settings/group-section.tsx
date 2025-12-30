@@ -94,7 +94,12 @@ export function GroupSection({ group, isAdmin }: Props) {
               招待リンクを再生成
             </Button>
 
-            <Button variant="outline" size="sm" asChild className="justify-start">
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="justify-start"
+            >
               <Link href="/settings/members">
                 <Users className="h-4 w-4 mr-2" />
                 メンバー管理

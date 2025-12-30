@@ -40,17 +40,17 @@ export function TransactionForm({
     useActionState(createTransaction, initialTransactionState);
   const [partnerState, partnerAction, isPartnerPending] = useActionState(
     createPartner,
-    initialPartnerState
+    initialPartnerState,
   );
 
   const [selectedPartnerId, setSelectedPartnerId] = useState<string>(
-    defaultPartnerId ?? ""
+    defaultPartnerId ?? "",
   );
   const [isLending, setIsLending] = useState<boolean>(true);
   const [amount, setAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [showNewPartnerInput, setShowNewPartnerInput] =
     useState<boolean>(false);
@@ -62,8 +62,8 @@ export function TransactionForm({
     if (partnerState.success && partnerState.partner) {
       setLocalPartners((prev) =>
         [...prev, partnerState.partner!].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
+          a.name.localeCompare(b.name),
+        ),
       );
       setSelectedPartnerId(partnerState.partner.id);
       setShowNewPartnerInput(false);

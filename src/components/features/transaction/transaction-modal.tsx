@@ -17,7 +17,11 @@ type Props = {
   defaultPartnerId?: string;
 };
 
-export function TransactionModal({ partners, suggestions, defaultPartnerId }: Props) {
+export function TransactionModal({
+  partners,
+  suggestions,
+  defaultPartnerId,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = useCallback(() => {

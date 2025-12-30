@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useTransition, useActionState, startTransition as reactStartTransition } from "react";
+import {
+  useState,
+  useEffect,
+  useTransition,
+  useActionState,
+  startTransition as reactStartTransition,
+} from "react";
 import {
   updateTransaction,
   deleteTransaction,
@@ -38,7 +44,7 @@ export function TransactionEditModal({
 }: Props) {
   const [state, formAction, isUpdatePending] = useActionState(
     updateTransaction,
-    initialState
+    initialState,
   );
   const [isDeletePending, startDeleteTransition] = useTransition();
 

@@ -17,7 +17,7 @@ const initialState: RegisterState = {};
 export function RegisterForm({ inviteCode, groupName }: Props) {
   const [state, formAction, isPending] = useActionState(
     registerWithInvite,
-    initialState
+    initialState,
   );
 
   return (

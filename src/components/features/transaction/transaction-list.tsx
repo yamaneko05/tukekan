@@ -71,7 +71,7 @@ export function TransactionList({
                   "font-semibold tabular-nums",
                   transaction.amount < 0
                     ? "text-destructive"
-                    : "text-foreground"
+                    : "text-foreground",
                 )}
               >
                 {transaction.amount > 0 ? "+" : ""}¥

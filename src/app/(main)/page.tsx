@@ -30,12 +30,12 @@ async function getPartnerBalances(userId: string): Promise<PartnerBalance[]> {
         partnerName: partner?.name ?? "不明",
         balance: b._sum.amount ?? 0,
       };
-    })
+    }),
   );
 
   // 残高の絶対値が大きい順にソート
   return partnersWithBalance.sort(
-    (a, b) => Math.abs(b.balance) - Math.abs(a.balance)
+    (a, b) => Math.abs(b.balance) - Math.abs(a.balance),
   );
 }
 
@@ -71,7 +71,7 @@ export default async function HomePage() {
     ]);
   const totalBalance = partnerBalances.reduce(
     (sum, item) => sum + item.balance,
-    0
+    0,
   );
 
   return (

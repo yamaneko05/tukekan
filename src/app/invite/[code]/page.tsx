@@ -25,9 +25,7 @@ export default async function InvitePage({ params }: Props) {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold">ツケカン</h1>
-          <p className="text-muted-foreground mt-2">
-            「{group.name}」に参加
-          </p>
+          <p className="text-muted-foreground mt-2">「{group.name}」に参加</p>
         </div>
         <RegisterForm inviteCode={code} groupName={group.name} />
       </div>

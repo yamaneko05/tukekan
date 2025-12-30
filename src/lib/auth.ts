@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "development-secret-key-change-in-production"
+  process.env.JWT_SECRET || "development-secret-key-change-in-production",
 );
 
 const TOKEN_NAME = "token";

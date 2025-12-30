@@ -12,8 +12,8 @@ const notoSansJp = Noto_Sans_JP({
 const zenMaruGothic = Zen_Maru_Gothic({
   variable: "--font-zen-maru-gothic",
   subsets: ["latin"],
-  weight: "900"
-})
+  weight: "900",
+});
 
 export const metadata: Metadata = {
   title: "ツケカン - 友人間の貸し借り管理アプリ",
@@ -27,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={`${notoSansJp.variable} ${zenMaruGothic.variable} font-sans antialiased`}>
+      <body
+        className={`${notoSansJp.variable} ${zenMaruGothic.variable} font-sans antialiased`}
+      >
         <ThemeProvider>
           {children}
           <Toaster />

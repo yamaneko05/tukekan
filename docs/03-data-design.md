@@ -32,38 +32,38 @@
 
 ### Account（認証ユーザー）
 
-| カラム | 型 | 説明 |
-|--------|-----|------|
-| id | String (cuid) | 一意のID |
-| name | String | ユーザー名（ログイン用・表示用、ユニーク） |
-| passwordHash | String | bcryptでハッシュ化されたパスワード |
-| createdAt | DateTime | 作成日時 |
+| カラム       | 型            | 説明                                       |
+| ------------ | ------------- | ------------------------------------------ |
+| id           | String (cuid) | 一意のID                                   |
+| name         | String        | ユーザー名（ログイン用・表示用、ユニーク） |
+| passwordHash | String        | bcryptでハッシュ化されたパスワード         |
+| createdAt    | DateTime      | 作成日時                                   |
 
 ### Partner（貸借相手）
 
 ユーザーが管理する「貸借相手」。アプリ未登録の友人も登録可能。
 
-| カラム | 型 | 説明 |
-|--------|-----|------|
-| id | String (cuid) | 一意のID |
-| name | String | 相手の名前 |
-| linkedAccountId | String? | 紐付いたAccountのID（任意） |
-| ownerId | String | この相手を登録したAccountのID |
-| createdAt | DateTime | 作成日時 |
+| カラム          | 型            | 説明                          |
+| --------------- | ------------- | ----------------------------- |
+| id              | String (cuid) | 一意のID                      |
+| name            | String        | 相手の名前                    |
+| linkedAccountId | String?       | 紐付いたAccountのID（任意）   |
+| ownerId         | String        | この相手を登録したAccountのID |
+| createdAt       | DateTime      | 作成日時                      |
 
 ### Transaction（取引）
 
 金額の正負で貸し借りを区別。返済も借りもマイナス金額で記録（descriptionで区別可能）。
 
-| カラム | 型 | 説明 |
-|--------|-----|------|
-| id | String (cuid) | 一意のID |
-| amount | Int | 金額（+は貸し、-は借り/返済） |
-| description | String? | 備考（麻雀、ドライブ、返済 等） |
-| date | DateTime | 取引発生日 |
-| ownerId | String | 取引を登録したAccountのID |
-| partnerId | String | 相手（Partner）のID |
-| createdAt | DateTime | 作成日時 |
+| カラム      | 型            | 説明                            |
+| ----------- | ------------- | ------------------------------- |
+| id          | String (cuid) | 一意のID                        |
+| amount      | Int           | 金額（+は貸し、-は借り/返済）   |
+| description | String?       | 備考（麻雀、ドライブ、返済 等） |
+| date        | DateTime      | 取引発生日                      |
+| ownerId     | String        | 取引を登録したAccountのID       |
+| partnerId   | String        | 相手（Partner）のID             |
+| createdAt   | DateTime      | 作成日時                        |
 
 ---
 
@@ -127,7 +127,7 @@ model Transaction {
 
 ```typescript
 const balances = await prisma.transaction.groupBy({
-  by: ['partnerId'],
+  by: ["partnerId"],
   where: { ownerId: currentUserId },
   _sum: { amount: true },
 });
@@ -142,7 +142,7 @@ const partnersWithBalance = await Promise.all(
       partner,
       balance: b._sum.amount ?? 0,
     };
-  })
+  }),
 );
 ```
 
@@ -154,7 +154,7 @@ const transactions = await prisma.transaction.findMany({
     ownerId: currentUserId,
     partnerId: partnerId,
   },
-  orderBy: { date: 'desc' },
+  orderBy: { date: "desc" },
   include: { partner: true },
 });
 ```
@@ -164,7 +164,7 @@ const transactions = await prisma.transaction.findMany({
 ```typescript
 const allTransactions = await prisma.transaction.findMany({
   where: { ownerId: currentUserId },
-  orderBy: { date: 'desc' },
+  orderBy: { date: "desc" },
   include: { partner: true },
 });
 ```
@@ -194,13 +194,13 @@ const membersWithBalance = members.map((m) => ({
 
 ```typescript
 const suggestions = await prisma.transaction.groupBy({
-  by: ['description'],
+  by: ["description"],
   where: {
     ownerId: currentUserId,
     description: { not: null },
   },
   _count: { description: true },
-  orderBy: { _count: { description: 'desc' } },
+  orderBy: { _count: { description: "desc" } },
   take: 10,
 });
 // → ["麻雀", "ドライブ", "ランチ", ...]

@@ -29,7 +29,9 @@ export function MemberList({ members }: Props) {
             <span
               className={cn(
                 "font-semibold tabular-nums",
-                member.totalBalance < 0 ? "text-destructive" : "text-foreground"
+                member.totalBalance < 0
+                  ? "text-destructive"
+                  : "text-foreground",
               )}
             >
               {member.totalBalance < 0 ? "-" : ""}¥

@@ -66,9 +66,7 @@ export function ProfileForm({ currentName }: ProfileFormProps) {
         </div>
       </div>
 
-      {state.error && (
-        <p className="text-sm text-destructive">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-destructive">{state.error}</p>}
 
       <Button type="submit" disabled={isPending} className="w-full">
         {isPending ? (

@@ -34,7 +34,7 @@ export function PartnerBalanceList({ balances }: Props) {
             <span
               className={cn(
                 "font-semibold tabular-nums",
-                item.balance < 0 ? "text-destructive" : "text-foreground"
+                item.balance < 0 ? "text-destructive" : "text-foreground",
               )}
             >
               {item.balance < 0 ? "-" : ""}¥

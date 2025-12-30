@@ -61,12 +61,12 @@ export async function getMembers(): Promise<MemberWithBalance[]> {
 
   // 残高の絶対値が大きい順にソート
   return membersWithBalance.sort(
-    (a, b) => Math.abs(b.totalBalance) - Math.abs(a.totalBalance)
+    (a, b) => Math.abs(b.totalBalance) - Math.abs(a.totalBalance),
   );
 }
 
 export async function getMemberDashboard(
-  memberId: string
+  memberId: string,
 ): Promise<MemberDashboard | null> {
   const session = await getSession();
   if (!session) {
@@ -114,12 +114,12 @@ export async function getMemberDashboard(
         partnerName: partner?.name ?? "不明",
         balance: b._sum.amount ?? 0,
       };
-    })
+    }),
   );
 
   // 残高の絶対値が大きい順にソート
   const sortedBalances = partnerBalances.sort(
-    (a, b) => Math.abs(b.balance) - Math.abs(a.balance)
+    (a, b) => Math.abs(b.balance) - Math.abs(a.balance),
   );
 
   const totalBalance = sortedBalances.reduce((sum, b) => sum + b.balance, 0);

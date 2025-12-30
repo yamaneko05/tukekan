@@ -2,15 +2,15 @@
 
 ## 5.1 技術スタック
 
-| カテゴリ | 技術 | 選定理由 |
-|----------|------|----------|
-| Framework | Next.js 16 (App Router) | SSR/SSG対応、Server Components/Actions活用 |
-| Language | TypeScript | 型安全性、開発効率 |
-| UI | Tailwind CSS + shadcn/ui | 高速開発、一貫したデザイン |
-| Database | Supabase (PostgreSQL) | マネージドDB、スケーラビリティ |
-| ORM | Prisma 7 | 型安全なDB操作 |
-| Auth | 自前実装（bcrypt + JWT） | シンプルな要件に適合、依存を減らす |
-| Hosting | Vercel | Next.jsとの親和性 |
+| カテゴリ  | 技術                     | 選定理由                                   |
+| --------- | ------------------------ | ------------------------------------------ |
+| Framework | Next.js 16 (App Router)  | SSR/SSG対応、Server Components/Actions活用 |
+| Language  | TypeScript               | 型安全性、開発効率                         |
+| UI        | Tailwind CSS + shadcn/ui | 高速開発、一貫したデザイン                 |
+| Database  | Supabase (PostgreSQL)    | マネージドDB、スケーラビリティ             |
+| ORM       | Prisma 7                 | 型安全なDB操作                             |
+| Auth      | 自前実装（bcrypt + JWT） | シンプルな要件に適合、依存を減らす         |
+| Hosting   | Vercel                   | Next.jsとの親和性                          |
 
 ---
 
@@ -122,14 +122,14 @@ export async function getSession() {
 ### 取引関連 (`actions/transaction.ts`)
 
 ```typescript
-'use server'
+"use server";
 
 export async function createTransaction(formData: FormData) {
-  const session = await getSession()
-  if (!session) throw new Error('Unauthorized')
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
 
   // 取引作成処理...
-  revalidatePath('/')
+  revalidatePath("/");
 }
 ```
 
@@ -166,22 +166,22 @@ MVPでは新規登録画面がないため、seedスクリプトで初期ユー�
 
 ```typescript
 // prisma/seed.ts
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function main() {
-  const passwordHash = await bcrypt.hash('password123', 12)
+  const passwordHash = await bcrypt.hash("password123", 12);
 
   await prisma.account.createMany({
     data: [
-      { name: 'user1', passwordHash },
-      { name: 'user2', passwordHash },
-      { name: 'user3', passwordHash },
+      { name: "user1", passwordHash },
+      { name: "user2", passwordHash },
+      { name: "user3", passwordHash },
     ],
-  })
+  });
 }
 
-main()
+main();
 ```

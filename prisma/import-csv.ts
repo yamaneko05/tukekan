@@ -204,11 +204,16 @@ async function main() {
     const balance = b._sum.amount ?? 0;
     if (balance !== 0) {
       const status = balance > 0 ? "貸し" : "借り";
-      console.log(`${partner?.name}: ${balance.toLocaleString()}円（${status}）`);
+      console.log(
+        `${partner?.name}: ${balance.toLocaleString()}円（${status}）`,
+      );
     }
   }
 
-  const totalBalance = balances.reduce((sum, b) => sum + (b._sum.amount ?? 0), 0);
+  const totalBalance = balances.reduce(
+    (sum, b) => sum + (b._sum.amount ?? 0),
+    0,
+  );
   console.log(`\n合計残高: ${totalBalance.toLocaleString()}円`);
 
   console.log("\nインポート完了！");

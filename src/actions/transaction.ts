@@ -39,7 +39,9 @@ const createTransactionSchema = z.object({
     .string()
     .max(100, "説明は100文字以内で入力してください")
     .optional(),
-  date: z.date().refine((date) => date <= new Date(), "未来の日付は選択できません"),
+  date: z
+    .date()
+    .refine((date) => date <= new Date(), "未来の日付は選択できません"),
 });
 
 export type CreateTransactionState = {
@@ -49,7 +51,7 @@ export type CreateTransactionState = {
 
 export async function createTransaction(
   _prevState: CreateTransactionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CreateTransactionState> {
   const session = await getSession();
   if (!session) {
@@ -75,7 +77,12 @@ export async function createTransaction(
     return { error: result.error.issues[0].message };
   }
 
-  const { partnerId, amount: validAmount, description, date: validDate } = result.data;
+  const {
+    partnerId,
+    amount: validAmount,
+    description,
+    date: validDate,
+  } = result.data;
 
   // partnerが存在し、かつ自分が所有しているかチェック
   const partner = await prisma.partner.findUnique({
@@ -119,7 +126,9 @@ const updateTransactionSchema = z.object({
     .string()
     .max(100, "説明は100文字以内で入力してください")
     .optional(),
-  date: z.date().refine((date) => date <= new Date(), "未来の日付は選択できません"),
+  date: z
+    .date()
+    .refine((date) => date <= new Date(), "未来の日付は選択できません"),
 });
 
 export type UpdateTransactionState = {
@@ -129,7 +138,7 @@ export type UpdateTransactionState = {
 
 export async function updateTransaction(
   _prevState: UpdateTransactionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateTransactionState> {
   const session = await getSession();
   if (!session) {
@@ -153,7 +162,12 @@ export async function updateTransaction(
     return { error: result.error.issues[0].message };
   }
 
-  const { transactionId, amount: validAmount, description, date: validDate } = result.data;
+  const {
+    transactionId,
+    amount: validAmount,
+    description,
+    date: validDate,
+  } = result.data;
 
   // 取引が存在し、自分のものかチェック
   const transaction = await prisma.transaction.findUnique({
@@ -189,7 +203,9 @@ export type DeleteTransactionState = {
   success?: boolean;
 };
 
-export async function deleteTransaction(transactionId: string): Promise<DeleteTransactionState> {
+export async function deleteTransaction(
+  transactionId: string,
+): Promise<DeleteTransactionState> {
   const session = await getSession();
   if (!session) {
     return { error: "ログインが必要です" };

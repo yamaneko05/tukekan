@@ -53,31 +53,34 @@ enum Role {
 
 ## 権限管理
 
-| 操作 | ADMIN | MEMBER |
-|------|-------|--------|
-| 取引の記録・編集・削除 | ○ | ○ |
-| Partner作成・編集 | ○ | ○ |
-| メンバー一覧閲覧 | ○ | ○ |
-| 招待コード表示 | ○ | ○ |
-| 招待コード再生成 | ○ | × |
-| メンバー削除 | ○ | × |
-| グループ名変更 | ○ | × |
+| 操作                   | ADMIN | MEMBER |
+| ---------------------- | ----- | ------ |
+| 取引の記録・編集・削除 | ○     | ○      |
+| Partner作成・編集      | ○     | ○      |
+| メンバー一覧閲覧       | ○     | ○      |
+| 招待コード表示         | ○     | ○      |
+| 招待コード再生成       | ○     | ×      |
+| メンバー削除           | ○     | ×      |
+| グループ名変更         | ○     | ×      |
 
 ---
 
 ## 招待リンク仕様
 
 ### 形式
+
 ```
 https://example.com/invite/{inviteCode}
 ```
 
 ### 特徴
+
 - **有効期限なし**: グループに紐づく永続的なコード
 - **複数回使用可**: 何人でも参加可能
 - **再生成可能**: 管理者がコードを再生成すると古いリンクは無効化
 
 ### フロー
+
 1. グループ作成時に招待コードを自動生成
 2. 管理者が招待リンクを共有
 3. 新規ユーザーがリンクにアクセス
@@ -106,7 +109,10 @@ https://example.com/invite/{inviteCode}
 ### 実装
 
 ```typescript
-async function createPartnersForNewMember(newAccountId: string, groupId: string) {
+async function createPartnersForNewMember(
+  newAccountId: string,
+  groupId: string,
+) {
   const existingMembers = await prisma.account.findMany({
     where: { groupId, id: { not: newAccountId } },
   });
@@ -139,10 +145,12 @@ async function createPartnersForNewMember(newAccountId: string, groupId: string)
 ## メンバー削除時の処理
 
 ### 方針
+
 - Partner: linkedAccountIdをnullに更新（リンク解除）、Partner自体は残す
 - Transaction: そのまま保持（履歴として残す）
 
 ### 理由
+
 - 過去の取引履歴は重要なデータ
 - Partner名は残るため、誰との取引だったか分かる
 - 削除されたメンバーとの未精算残高も確認可能
@@ -173,12 +181,14 @@ async function removeMemberFromGroup(accountId: string) {
 ## グループ作成フロー
 
 ### 既存ユーザーの場合
+
 1. 設定画面から「グループを作成」
 2. グループ名を入力
 3. グループ作成（招待コード自動生成）、作成者はADMIN権限で所属
 4. 招待リンクを共有してメンバーを招待
 
 ### 新規ユーザーの場合
+
 1. 既存グループの招待リンク経由でアクセス
 2. ユーザー名・パスワードを入力
 3. アカウント作成と同時にグループに参加（MEMBER権限）
@@ -209,7 +219,7 @@ async function migrateExistingAccounts() {
       where: { id: account.id },
       data: {
         groupId: group.id,
-        role: 'ADMIN',
+        role: "ADMIN",
       },
     });
   }
@@ -222,18 +232,20 @@ async function migrateExistingAccounts() {
 
 ### 追加・変更する画面
 
-| 画面 | パス | 説明 |
-|------|------|------|
-| 招待リンク経由登録 | `/invite/[code]` | 招待リンクからの新規登録 |
-| グループ設定 | `/settings/group` | グループ名変更、招待リンク表示・再生成、メンバー管理 |
+| 画面               | パス              | 説明                                                 |
+| ------------------ | ----------------- | ---------------------------------------------------- |
+| 招待リンク経由登録 | `/invite/[code]`  | 招待リンクからの新規登録                             |
+| グループ設定       | `/settings/group` | グループ名変更、招待リンク表示・再生成、メンバー管理 |
 
 ### 設定画面の変更
+
 - 「グループ」セクションを追加
 - グループ名表示
 - 招待リンク表示（全員）
 - 管理者のみ: 招待コード再生成ボタン、メンバー管理リンク
 
 ### メンバー一覧画面の変更
+
 - 管理者のみ: メンバー削除ボタンを表示
 
 ---
@@ -241,19 +253,23 @@ async function migrateExistingAccounts() {
 ## 実装フェーズ
 
 ### Phase 3-1: 基盤
+
 - [ ] Prismaスキーマ更新（Group追加、Account変更）
 - [ ] マイグレーション実行
 - [ ] 既存データのマイグレーションスクリプト
 
 ### Phase 3-2: 招待・登録
+
 - [ ] 招待リンク経由の新規登録画面
 - [ ] 新規登録 Server Action（Partner自動作成含む）
 
 ### Phase 3-3: 管理機能
+
 - [ ] グループ設定画面
 - [ ] 招待コード再生成機能
 - [ ] メンバー削除機能
 
 ### Phase 3-4: 権限制御
+
 - [ ] 各Server Actionに権限チェック追加
 - [ ] UIでの権限に応じた表示制御

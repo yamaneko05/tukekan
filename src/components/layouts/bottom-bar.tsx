@@ -26,7 +26,9 @@ export function BottomBar() {
       <div className="mx-auto flex h-16 max-w-2xl items-center justify-around">
         {navItems.map((item) => {
           const isActive =
-            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            item.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}
@@ -35,7 +37,7 @@ export function BottomBar() {
                 "flex flex-1 flex-col items-center justify-center gap-1 py-2 text-xs transition-colors",
                 isActive
                   ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               <item.icon className="h-5 w-5" />

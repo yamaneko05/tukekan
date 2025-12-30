@@ -22,7 +22,7 @@ export type LoginState = {
 
 export async function login(
   _prevState: LoginState,
-  formData: FormData
+  formData: FormData,
 ): Promise<LoginState> {
   const result = loginSchema.safeParse({
     userId: formData.get("userId"),
@@ -104,7 +104,7 @@ export type UpdateProfileState = {
 
 export async function updateProfile(
   _prevState: UpdateProfileState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateProfileState> {
   const session = await getSession();
   if (!session) {
@@ -157,7 +157,7 @@ export async function updateProfile(
 
     const isValid = await verifyPassword(
       currentPassword,
-      currentAccount.passwordHash
+      currentAccount.passwordHash,
     );
     if (!isValid) {
       return { error: "現在のパスワードが正しくありません" };
