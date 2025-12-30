@@ -9,6 +9,7 @@ type Props = {
   showPartnerName?: boolean;
   linkToPartner?: boolean;
   suggestions?: string[];
+  showBalance?: boolean;
 };
 
 export function TransactionListWithEdit({
@@ -16,6 +17,7 @@ export function TransactionListWithEdit({
   showPartnerName = false,
   linkToPartner = false,
   suggestions = [],
+  showBalance = false,
 }: Props) {
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
@@ -33,6 +35,7 @@ export function TransactionListWithEdit({
         showPartnerName={showPartnerName}
         linkToPartner={linkToPartner}
         onTransactionClick={handleTransactionClick}
+        showBalance={showBalance}
       />
       <TransactionEditModal
         transaction={selectedTransaction}

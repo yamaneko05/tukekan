@@ -29,14 +29,24 @@ async function getPartnerWithTransactions(partnerId: string, userId: string) {
       ownerId: userId,
       partnerId: partnerId,
     },
-    orderBy: { date: "desc" },
+    orderBy: [{ date: "asc" }, { createdAt: "asc" }],
   });
 
   const balance = transactions.reduce((sum, t) => sum + t.amount, 0);
 
+  // 累計残高を計算（古い順に積み上げ）
+  let runningBalance = 0;
+  const transactionsWithBalance = transactions.map((t) => {
+    runningBalance += t.amount;
+    return { ...t, balanceAfter: runningBalance };
+  });
+
+  // 表示用に新しい順に並び替え
+  const sortedTransactions = transactionsWithBalance.reverse();
+
   return {
     partner,
-    transactions,
+    transactions: sortedTransactions,
     balance,
   };
 }
@@ -67,6 +77,7 @@ export default async function PartnerHistoryPage({ params }: Props) {
     date: t.date,
     partnerName: partner.name,
     partnerId: partner.id,
+    balanceAfter: t.balanceAfter,
   }));
 
   return (
@@ -111,6 +122,7 @@ export default async function PartnerHistoryPage({ params }: Props) {
           <TransactionListWithEdit
             transactions={transactionItems}
             suggestions={suggestions}
+            showBalance={true}
           />
         </div>
       </div>

@@ -11,6 +11,7 @@ export type Transaction = {
   date: Date;
   partnerName?: string;
   partnerId?: string;
+  balanceAfter?: number;
 };
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
   showPartnerName?: boolean;
   linkToPartner?: boolean;
   onTransactionClick?: (transaction: Transaction) => void;
+  showBalance?: boolean;
 };
 
 function formatDate(date: Date): string {
@@ -33,6 +35,7 @@ export function TransactionList({
   showPartnerName = false,
   linkToPartner = false,
   onTransactionClick,
+  showBalance = false,
 }: Props) {
   if (transactions.length === 0) {
     return (
@@ -66,17 +69,32 @@ export function TransactionList({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span
-                className={cn(
-                  "font-semibold tabular-nums",
-                  transaction.amount < 0
-                    ? "text-destructive"
-                    : "text-foreground",
+              <div className="text-right">
+                <span
+                  className={cn(
+                    "font-semibold tabular-nums",
+                    transaction.amount < 0
+                      ? "text-destructive"
+                      : "text-foreground",
+                  )}
+                >
+                  {transaction.amount > 0 ? "+" : ""}¥
+                  {Math.abs(transaction.amount).toLocaleString()}
+                </span>
+                {showBalance && transaction.balanceAfter !== undefined && (
+                  <p
+                    className={cn(
+                      "text-xs tabular-nums",
+                      transaction.balanceAfter < 0
+                        ? "text-destructive/70"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    残高 ¥{Math.abs(transaction.balanceAfter).toLocaleString()}
+                    {transaction.balanceAfter < 0 && " (借)"}
+                  </p>
                 )}
-              >
-                {transaction.amount > 0 ? "+" : ""}¥
-                {Math.abs(transaction.amount).toLocaleString()}
-              </span>
+              </div>
               {linkToPartner && transaction.partnerId && (
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               )}
