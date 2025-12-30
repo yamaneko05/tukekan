@@ -7,10 +7,8 @@ import { getDescriptionSuggestions } from "@/actions/transaction";
 import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  TransactionList,
-  type Transaction,
-} from "@/components/features/transaction/transaction-list";
+import { type Transaction } from "@/components/features/transaction/transaction-list";
+import { TransactionListWithEdit } from "@/components/features/transaction/transaction-list-with-edit";
 import { TransactionModal } from "@/components/features/transaction/transaction-modal";
 
 type Props = {
@@ -67,6 +65,8 @@ export default async function PartnerHistoryPage({ params }: Props) {
     amount: t.amount,
     description: t.description,
     date: t.date,
+    partnerName: partner.name,
+    partnerId: partner.id,
   }));
 
   return (
@@ -104,8 +104,14 @@ export default async function PartnerHistoryPage({ params }: Props) {
       {/* Transaction history */}
       <div className="px-4">
         <h4 className="font-semibold">取引履歴</h4>
+        <p className="text-sm text-muted-foreground mt-1">
+          取引をクリックすると編集できます。
+        </p>
         <div className="mt-4">
-          <TransactionList transactions={transactionItems} />
+          <TransactionListWithEdit
+                transactions={transactionItems}
+                suggestions={suggestions}
+              />
         </div>
       </div>
     </div>

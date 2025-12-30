@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
@@ -15,6 +17,7 @@ type Props = {
   transactions: Transaction[];
   showPartnerName?: boolean;
   linkToPartner?: boolean;
+  onTransactionClick?: (transaction: Transaction) => void;
 };
 
 function formatDate(date: Date): string {
@@ -29,6 +32,7 @@ export function TransactionList({
   transactions,
   showPartnerName = false,
   linkToPartner = false,
+  onTransactionClick,
 }: Props) {
   if (transactions.length === 0) {
     return (
@@ -89,6 +93,20 @@ export function TransactionList({
             >
               {content}
             </Link>
+          );
+        }
+
+        // Clickable for editing
+        if (onTransactionClick) {
+          return (
+            <button
+              key={transaction.id}
+              type="button"
+              onClick={() => onTransactionClick(transaction)}
+              className="flex items-center justify-between px-4 py-3 w-full text-left hover:bg-muted/50 transition-colors"
+            >
+              {content}
+            </button>
           );
         }
 

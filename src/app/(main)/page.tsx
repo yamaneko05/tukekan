@@ -9,7 +9,7 @@ import {
   type PartnerBalance,
 } from "@/components/features/partner/partner-balance-list";
 import { TransactionModal } from "@/components/features/transaction/transaction-modal";
-import { TransactionList } from "@/components/features/transaction/transaction-list";
+import { TransactionListWithEdit } from "@/components/features/transaction/transaction-list-with-edit";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wallet, History } from "lucide-react";
 
@@ -105,11 +105,14 @@ export default async function HomePage() {
         <TabsContent value="history">
           <div className="px-4">
             <h4 className="font-semibold">全取引履歴</h4>
+            <p className="text-sm text-muted-foreground mt-1">
+              取引をクリックすると編集できます。
+            </p>
             <div className="mt-4">
-              <TransactionList
+              <TransactionListWithEdit
                 transactions={allTransactions}
                 showPartnerName={true}
-                linkToPartner={true}
+                suggestions={suggestions}
               />
             </div>
           </div>
