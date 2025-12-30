@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { type Transaction } from "@/components/features/transaction/transaction-list";
 import { TransactionListWithEdit } from "@/components/features/transaction/transaction-list-with-edit";
 import { TransactionModal } from "@/components/features/transaction/transaction-modal";
+import { CopyTransactionHistoryButton } from "@/components/features/transaction/copy-transaction-history-button";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -110,6 +111,12 @@ export default async function PartnerHistoryPage({ params }: Props) {
         >
           {balance < 0 ? "-" : ""}¥{Math.abs(balance).toLocaleString()}
         </p>
+        <div className="mt-4">
+          <CopyTransactionHistoryButton
+            transactions={transactionItems}
+            partnerName={partner.name}
+          />
+        </div>
       </div>
 
       {/* Transaction history */}
