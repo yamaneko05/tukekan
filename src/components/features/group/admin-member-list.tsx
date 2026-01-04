@@ -26,7 +26,7 @@ type Props = {
   currentUserId: string;
 };
 
-export function MemberList({ members, currentUserId }: Props) {
+export function AdminMemberList({ members, currentUserId }: Props) {
   const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);

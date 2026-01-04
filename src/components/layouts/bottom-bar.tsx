@@ -17,8 +17,8 @@ const navItems = [
     icon: Inbox,
   },
   {
-    href: "/members",
-    label: "メンバー",
+    href: "/group",
+    label: "グループ",
     icon: Users,
   },
 ];
