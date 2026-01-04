@@ -2,14 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users } from "lucide-react";
+import { User, Inbox, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   {
     href: "/",
-    label: "ホーム",
-    icon: Home,
+    label: "自分",
+    icon: User,
+  },
+  {
+    href: "/from-members",
+    label: "相手から",
+    icon: Inbox,
   },
   {
     href: "/members",
