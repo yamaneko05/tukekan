@@ -5,19 +5,12 @@ import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import type { Transaction } from "./transaction-list";
+import { formatDateForDisplay } from "@/lib/dateUtils";
 
 type Props = {
   transactions: Transaction[];
   partnerName: string;
 };
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}
 
 function formatAmount(amount: number): string {
   const sign = amount > 0 ? "+" : "";
@@ -46,7 +39,7 @@ export function CopyTransactionHistoryButton({
     const header = ["日付", "相手", "説明", "金額", "残高"].join("\t");
     const rows = sortedTransactions.map((t) => {
       return [
-        formatDate(t.date),
+        formatDateForDisplay(t.date),
         partnerName,
         t.description || "",
         formatAmount(t.amount),

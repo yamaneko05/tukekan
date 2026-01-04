@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Transaction } from "./transaction-list";
+import { formatDateToJST } from "@/lib/dateUtils";
 
 type Props = {
   transaction: Transaction | null;
@@ -219,7 +220,7 @@ export function TransactionEditModal({
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                max={new Date().toISOString().split("T")[0]}
+                max={formatDateToJST()}
                 required
                 disabled={isPending}
               />

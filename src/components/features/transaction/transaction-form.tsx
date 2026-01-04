@@ -19,6 +19,7 @@ import {
   SelectSeparator,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { formatDateToJST } from "@/lib/dateUtils";
 
 type Props = {
   partners: Partner[];
@@ -258,7 +259,7 @@ export function TransactionForm({
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          max={new Date().toISOString().split("T")[0]}
+          max={formatDateToJST()}
           required
         />
       </div>

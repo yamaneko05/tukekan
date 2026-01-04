@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { formatDateForDisplay } from "@/lib/dateUtils";
 
 export type Transaction = {
   id: string;
@@ -21,14 +22,6 @@ type Props = {
   onTransactionClick?: (transaction: Transaction) => void;
   showBalance?: boolean;
 };
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}
 
 export function TransactionList({
   transactions,
@@ -52,7 +45,7 @@ export function TransactionList({
           <>
             <div className="flex flex-col gap-1">
               <span className="text-sm text-muted-foreground">
-                {formatDate(transaction.date)}
+                {formatDateForDisplay(transaction.date)}
               </span>
               <div className="flex items-center gap-2">
                 {showPartnerName && transaction.partnerName && (
