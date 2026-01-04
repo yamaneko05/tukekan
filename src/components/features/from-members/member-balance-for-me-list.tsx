@@ -21,7 +21,7 @@ export function MemberBalanceForMeList({ balances }: Props) {
       {balances.map((item) => (
         <Link
           key={item.memberId}
-          href={`/members/${item.memberId}`}
+          href={`/from-members/${item.memberId}`}
           className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50"
         >
           <span className="font-medium">{item.memberName}</span>
