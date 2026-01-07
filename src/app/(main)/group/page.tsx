@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { GroupNameForm } from "@/components/features/group/group-name-form";
 import { InviteLinkSection } from "@/components/features/group/invite-link-section";
 import { GroupMemberList } from "@/components/features/group/group-member-list";
 
@@ -32,8 +33,10 @@ export default async function GroupPage() {
       <div className="px-4 pb-12 space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>{user.group.name}</CardTitle>
-            <CardDescription>グループの情報と招待リンク</CardDescription>
+            <GroupNameForm
+              currentName={user.group.name}
+              isAdmin={isAdmin}
+            />
           </CardHeader>
           <CardContent>
             <InviteLinkSection
